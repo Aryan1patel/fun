@@ -294,6 +294,47 @@ const STYLES = `
   }
   .h6-s2-foot button:hover { color: var(--cr); }
 
+  /* ════ Songs section ════ */
+  .h6-songs {
+    background: var(--cream2);
+    border-top: 1px solid rgba(139,26,26,.08);
+    border-bottom: 1px solid rgba(139,26,26,.08);
+    padding: clamp(20px,4vw,36px) clamp(20px,5vw,60px);
+  }
+  .h6-songs-title {
+    font-family: var(--script); font-style: italic;
+    font-size: clamp(20px,4vw,36px); color: var(--cr);
+    text-align: center; margin-bottom: clamp(14px,2.5vw,22px);
+  }
+  .h6-song-row {
+    display: flex; align-items: center; gap: 14px;
+    padding: 11px 0; border-bottom: 1px solid rgba(139,26,26,.07);
+    text-decoration: none; color: inherit;
+    transition: background .15s;
+  }
+  .h6-song-row:last-child { border-bottom: none; }
+  .h6-song-row:hover { background: rgba(139,26,26,.04); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+  .h6-song-num {
+    font-family: var(--serif); font-size: 12px; color: var(--ink3);
+    min-width: 22px; text-align: right;
+  }
+  .h6-song-dot {
+    width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
+    background: var(--cr); display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: transform .2s;
+  }
+  .h6-song-row:hover .h6-song-dot { transform: scale(1.1); }
+  .h6-song-info { flex: 1; }
+  .h6-song-name { font-family: var(--serif); font-size: clamp(15px,2.5vw,18px); color: var(--ink); font-weight: 600; }
+  .h6-song-artist { font-family: var(--serif); font-size: 13px; color: var(--ink3); font-style: italic; margin-top: 2px; }
+  .h6-song-open { font-family: var(--serif); font-size: 11px; color: var(--cr); letter-spacing: 1px; opacity: 0; transition: opacity .2s; }
+  .h6-song-row:hover .h6-song-open { opacity: 1; }
+  .h6.oliver .h6-songs { background: var(--cream2); border-color: rgba(58,159,213,.1); }
+  .h6.oliver .h6-song-row { border-color: rgba(58,159,213,.08); }
+  .h6.oliver .h6-song-row:hover { background: rgba(58,159,213,.05); }
+  .h6.oliver .h6-song-dot { background: var(--cr); }
+  .h6.oliver .h6-song-open { color: var(--cr); }
+
   /* ══════════════════════════════════════
      SECTION 3 — Star / "colour Blue"
   ══════════════════════════════════════ */
@@ -654,6 +695,16 @@ const QUOTES = [
 
   <>If love had<br />a favorite person,<br />it would be <em>you</em></>,
 
+  <>these songs make me<br />think of <em>you</em></>,
+
+];
+
+const SONGS = [
+  { title: 'Apocalypse',         artist: 'Cigarettes After Sex', url: 'https://open.spotify.com/track/5Y9P0dGRB0QIIA9FbLCPjL' },
+  { title: 'Those Eyes',         artist: 'New West',             url: 'https://open.spotify.com/track/3bNv3a8PNpSAYSFdFmiGDw' },
+  { title: 'Until I Found You',  artist: 'Stephen Sanchez',      url: 'https://open.spotify.com/track/0dqrGbzAEDPRSDbGoIJhRF' },
+  { title: 'I Like Me Better',   artist: 'Lauv',                 url: 'https://open.spotify.com/track/2zFnMxXqoQ64hWxBSDqsbl' },
+  { title: 'Sweet Creature',     artist: 'Harry Styles',         url: 'https://open.spotify.com/track/7wGoVu4Dady5GV0Sv4UIsx' },
 ];
 
 const STRIP  = [ash1, ash2,ash7,ash3, ash5,ash4,ash6,ash9];
@@ -877,6 +928,23 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
 
         <hr className="h6-rule" />
 
+        {/* ═══ SONGS ═══ */}
+        <section className="h6-songs">
+          <p className="h6-songs-title">songs that make me think of you</p>
+          {SONGS.map((s, i) => (
+            <a key={i} className="h6-song-row" href={s.url} target="_blank" rel="noopener noreferrer">
+              <span className="h6-song-num">{i + 1}</span>
+              <span className="h6-song-dot">♪</span>
+              <div className="h6-song-info">
+                <div className="h6-song-name">{s.title}</div>
+                <div className="h6-song-artist">{s.artist}</div>
+              </div>
+              <span className="h6-song-open">open ↗</span>
+            </a>
+          ))}
+        </section>
+
+        <hr className="h6-rule" />
         {/* ═══ OLIVER MARQUEE ═══ */}
         <section className="h6-s1" style={{ paddingBottom: 0 }}>
           <div className="h6-s1-top">

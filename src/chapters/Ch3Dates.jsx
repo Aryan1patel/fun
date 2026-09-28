@@ -813,7 +813,7 @@ export default function Ch3Dates({ active, goToChapter, isCute }) {
               <span className="ch3-line"><Chars text="Oliver" /></span>
               <span className="ch3-line"><span className="ch3-amp" aria-hidden="true">&amp;</span><Chars text="Ashley" /></span>
             </h1>
-            <p className="ch3-tagline">Hermes didn't deliver this one — Discord did.</p>
+            <p className="ch3-tagline">Their story, carried on the Wings.</p>
           </div>
 
           <p className="ch3-hero-note">It started with a message.</p>

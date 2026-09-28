@@ -295,6 +295,10 @@ export default function App() {
 
   const handleShortcutSelect = useCallback((u) => {
     setUser(u);
+    // set the correct theme for the chosen person
+    const cute = u === 'ashley';
+    setIsCute(cute);
+    localStorage.setItem('oa-mode', cute ? 'cute' : 'boy');
     sessionStorage.setItem('oa-user', u);
     sessionStorage.setItem('oa-phase', 'app');
     setPhase('app');

@@ -2,6 +2,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { db } from '../firebase';
 import { doc, onSnapshot, setDoc, updateDoc } from 'firebase/firestore';
 
+/* ── songs audio ── */
+import songApocalypse  from '../assets/Apocalypse - Cigarettes After Sex.mp3';
+import songThoseEyes   from '../assets/Those_Eyes_-_New_West_(mp3.pm).mp3';
+import songUntilFound  from '../assets/Until_I_Found_You.mp3';
+
 /* ── ash ── */
 import ash1 from '../assets/pics/ash/nail.jpeg';
 import ash2 from '../assets/pics/ash/IMG_2426.jpg';
@@ -334,6 +339,9 @@ const STYLES = `
   .h6.oliver .h6-song-row:hover { background: rgba(58,159,213,.05); }
   .h6.oliver .h6-song-dot { background: var(--cr); }
   .h6.oliver .h6-song-open { color: var(--cr); }
+  .h6-song-row.playing .h6-song-name { color: var(--cr); }
+  .h6-song-row.playing .h6-song-dot { animation: h6-pulse-play 1s ease-in-out infinite; }
+  @keyframes h6-pulse-play { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
 
   /* ══════════════════════════════════════
      SECTION 3 — Star / "colour Blue"
@@ -700,11 +708,11 @@ const QUOTES = [
 ];
 
 const SONGS = [
-  { title: 'Apocalypse',         artist: 'Cigarettes After Sex', url: 'https://open.spotify.com/track/5Y9P0dGRB0QIIA9FbLCPjL' },
-  { title: 'Those Eyes',         artist: 'New West',             url: 'https://open.spotify.com/track/3bNv3a8PNpSAYSFdFmiGDw' },
-  { title: 'Until I Found You',  artist: 'Stephen Sanchez',      url: 'https://open.spotify.com/track/0dqrGbzAEDPRSDbGoIJhRF' },
-  { title: 'I Like Me Better',   artist: 'Lauv',                 url: 'https://open.spotify.com/track/2zFnMxXqoQ64hWxBSDqsbl' },
-  { title: 'Sweet Creature',     artist: 'Harry Styles',         url: 'https://open.spotify.com/track/7wGoVu4Dady5GV0Sv4UIsx' },
+  { title: 'Apocalypse',         artist: 'Cigarettes After Sex', url: 'https://open.spotify.com/track/5Y9P0dGRB0QIIA9FbLCPjL', audio: songApocalypse },
+  { title: 'Those Eyes',         artist: 'New West',             url: 'https://open.spotify.com/track/3bNv3a8PNpSAYSFdFmiGDw', audio: songThoseEyes  },
+  { title: 'Until I Found You',  artist: 'Stephen Sanchez',      url: 'https://open.spotify.com/track/0dqrGbzAEDPRSDbGoIJhRF', audio: songUntilFound },
+  { title: 'I Like Me Better',   artist: 'Lauv',                 url: 'https://open.spotify.com/track/2zFnMxXqoQ64hWxBSDqsbl', audio: null },
+  { title: 'Sweet Creature',     artist: 'Harry Styles',         url: 'https://open.spotify.com/track/7wGoVu4Dady5GV0Sv4UIsx', audio: null },
 ];
 
 const STRIP  = [ash1, ash2,ash7,ash3, ash5,ash4,ash6,ash9];
@@ -742,6 +750,8 @@ const TABS = [
 export default function Ch9Home({ active, goToChapter, user, isCute }) {
   const [qIdx, setQIdx] = useState(0);
   const [lb, setLb]     = useState(null);
+  const [playingIdx, setPlayingIdx] = useState(null);
+  const audioRef = useRef(null);
 
   /* ── movie watchlist state (Firestore = syncs across devices) ── */
   const [movies,   setMovies]   = useState([]);
@@ -761,6 +771,28 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
     const id = setInterval(() => setQIdx(i => (i + 1) % QUOTES.length), 4500);
     return () => clearInterval(id);
   }, [active]);
+
+  /* stop audio when leaving chapter */
+  useEffect(() => {
+    if (!active && audioRef.current) {
+      audioRef.current.pause();
+      setPlayingIdx(null);
+    }
+  }, [active]);
+
+  const togglePlay = useCallback((i, audioSrc) => {
+    if (!audioSrc) return; // no local file — just open Spotify link
+    if (playingIdx === i) {
+      audioRef.current.pause();
+      setPlayingIdx(null);
+    } else {
+      if (audioRef.current) audioRef.current.pause();
+      audioRef.current = new Audio(audioSrc);
+      audioRef.current.play();
+      audioRef.current.onended = () => setPlayingIdx(null);
+      setPlayingIdx(i);
+    }
+  }, [playingIdx]);
 
   /* ── Firestore real-time listener ── */
   useEffect(() => {
@@ -932,15 +964,23 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
         <section className="h6-songs">
           <p className="h6-songs-title">songs that make me think of you</p>
           {SONGS.map((s, i) => (
-            <a key={i} className="h6-song-row" href={s.url} target="_blank" rel="noopener noreferrer">
+            <div key={i} className={`h6-song-row${playingIdx === i ? ' playing' : ''}`}>
               <span className="h6-song-num">{i + 1}</span>
-              <span className="h6-song-dot">♪</span>
+              <button
+                className="h6-song-dot"
+                onClick={() => togglePlay(i, s.audio)}
+                aria-label={playingIdx === i ? 'Pause' : 'Play'}
+              >
+                {s.audio ? (playingIdx === i ? '⏸' : '▶') : '♪'}
+              </button>
               <div className="h6-song-info">
                 <div className="h6-song-name">{s.title}</div>
                 <div className="h6-song-artist">{s.artist}</div>
               </div>
-              <span className="h6-song-open">open ↗</span>
-            </a>
+              <a href={s.url} target="_blank" rel="noopener noreferrer" className="h6-song-open" onClick={e => e.stopPropagation()}>
+                spotify ↗
+              </a>
+            </div>
           ))}
         </section>
 

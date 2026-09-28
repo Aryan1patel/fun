@@ -703,7 +703,6 @@ const QUOTES = [
 
   <>If love had<br />a favorite person,<br />it would be <em>you</em></>,
 
-  <>these songs make me<br />think of <em>you</em></>,
 
 ];
 
@@ -943,7 +942,6 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
         <section className="h6-s2">
           <div className="h6-s2-bar">
             <span>true love</span>
-            <span className="mid"><b>songs</b> that <em>remind me</em> of <u>you</u></span>
             <span>always</span>
           </div>
 

@@ -7,6 +7,7 @@ import songApocalypse  from '../assets/Apocalypse - Cigarettes After Sex.mp3';
 import songThoseEyes   from '../assets/Those_Eyes_-_New_West_(mp3.pm).mp3';
 import songUntilFound  from '../assets/Until_I_Found_You.mp3';
 import songILikeMeBetter from '../assets/i like m better.mp3';
+import songSweetCreature from '../assets/Harry_Styles_-_Sweet_Creature_NR_(mp3.pm).mp3';
 
 /* ── ash ── */
 import ash1 from '../assets/pics/ash/nail.jpeg';
@@ -712,7 +713,7 @@ const SONGS = [
   { title: 'Those Eyes',         artist: 'New West',             url: 'https://open.spotify.com/track/3bNv3a8PNpSAYSFdFmiGDw', audio: songThoseEyes  },
   { title: 'Until I Found You',  artist: 'Stephen Sanchez',      url: 'https://open.spotify.com/track/0dqrGbzAEDPRSDbGoIJhRF', audio: songUntilFound },
   { title: 'I Like Me Better',   artist: 'Lauv',                 url: 'https://open.spotify.com/track/2zFnMxXqoQ64hWxBSDqsbl', audio: songILikeMeBetter },
-  { title: 'Sweet Creature',     artist: 'Harry Styles',         url: 'https://open.spotify.com/track/7wGoVu4Dady5GV0Sv4UIsx', audio: null },
+  { title: 'Sweet Creature',     artist: 'Harry Styles',         url: 'https://open.spotify.com/track/7wGoVu4Dady5GV0Sv4UIsx', audio: songSweetCreature },
 ];
 
 const STRIP  = [ash1, ash2,ash7,ash3, ash5,ash4,ash6,ash9];

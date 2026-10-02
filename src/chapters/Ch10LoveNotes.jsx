@@ -264,7 +264,7 @@ export default function Ch10LoveNotes({ active, goToChapter, spawnFloaties, isCu
         <section className="ch10-page" ref={reg(2)}>
           <Star style={{ bottom: -10, left: -20, transform: 'rotate(18deg)' }} />
           <div className="ch10-gen">
-            <h3>You remind me of the color <span>Green</span></h3>
+         
             <div className="ch10-card">
               <span className="ch10-tag">for today</span>
               <p key={noteKey}>{noteText}</p>

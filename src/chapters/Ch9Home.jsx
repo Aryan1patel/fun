@@ -751,19 +751,19 @@ const STYLES = `
   }
   .h6-info-modal {
     position: relative;
-    background: var(--cream); border: 1px solid rgba(139,26,26,.2);
-    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    background: #1a1210; border: 1px solid rgba(255,255,255,.1);
+    box-shadow: 0 20px 60px rgba(0,0,0,.7);
     width: min(680px, 96vw); max-height: 88vh;
     overflow-y: auto; overflow-x: hidden;
-    scrollbar-width: thin; scrollbar-color: rgba(139,26,26,.2) transparent;
+    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.15) transparent;
     animation: h6-lbZ .25s ease;
   }
   .h6-info-close {
     all: unset; cursor: pointer; position: sticky; top: 0; float: right;
     margin: 12px 12px 0 0;
     width: 34px; height: 34px; border-radius: 50%; z-index: 2;
-    background: rgba(139,26,26,.1); border: 1px solid rgba(139,26,26,.2);
-    color: var(--ink2); font-size: 16px;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.8); font-size: 16px;
     display: flex; align-items: center; justify-content: center;
     transition: background .2s, color .2s;
   }
@@ -787,28 +787,28 @@ const STYLES = `
   }
   .h6-info-title {
     font-family: var(--script); font-style: italic;
-    font-size: clamp(20px,4vw,32px); color: var(--cr); line-height: 1.15;
+    font-size: clamp(20px,4vw,32px); color: #e8c8c8; line-height: 1.15;
     margin: 0;
   }
   .h6-info-meta {
     display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
   }
   .h6-info-yr {
-    font-family: var(--serif); font-size: 12px; color: var(--ink3);
-    border: 1px solid rgba(139,26,26,.2); padding: 2px 8px;
+    font-family: var(--serif); font-size: 12px; color: rgba(255,255,255,.6);
+    border: 1px solid rgba(255,255,255,.18); padding: 2px 8px;
   }
   .h6-info-rating {
-    font-family: var(--serif); font-size: 12px; color: var(--cr);
-    border: 1px solid rgba(139,26,26,.2); padding: 2px 8px;
+    font-family: var(--serif); font-size: 12px; color: #e87ea1;
+    border: 1px solid rgba(232,126,161,.35); padding: 2px 8px;
   }
   .h6-info-type {
     font-family: var(--serif); font-size: 11px; letter-spacing: 2px;
-    text-transform: uppercase; color: var(--ink3); padding: 2px 8px;
-    background: rgba(139,26,26,.06); border: 1px solid rgba(139,26,26,.1);
+    text-transform: uppercase; color: rgba(255,255,255,.5); padding: 2px 8px;
+    background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
   }
   .h6-info-overview {
     font-family: var(--serif); font-size: clamp(13px,2vw,15px);
-    color: var(--ink2); line-height: 1.7; margin: 0;
+    color: rgba(255,255,255,.78); line-height: 1.7; margin: 0;
   }
   .h6-info-add-btn {
     all: unset; cursor: pointer; align-self: flex-start;
@@ -820,21 +820,15 @@ const STYLES = `
   }
   .h6-info-add-btn:hover:not(:disabled) { opacity: .85; }
   .h6-info-add-btn.added {
-    background: transparent; color: var(--ink3);
-    border-color: rgba(139,26,26,.2); cursor: default;
+    background: transparent; color: rgba(255,255,255,.4);
+    border-color: rgba(255,255,255,.15); cursor: default;
   }
 
-  /* oliver overrides */
-  .h6.oliver .h6-info-modal { background: var(--cream); border-color: rgba(58,159,213,.2); }
-  .h6.oliver .h6-info-close { background: rgba(58,159,213,.1); border-color: rgba(58,159,213,.2); }
+  /* oliver overrides — modal is already dark, just swap accent colour */
   .h6.oliver .h6-info-close:hover { background: var(--cr); border-color: var(--cr); }
-  .h6.oliver .h6-info-yr,
-  .h6.oliver .h6-info-type { border-color: rgba(58,159,213,.2); }
-  .h6.oliver .h6-info-rating { color: var(--cr); border-color: rgba(58,159,213,.2); }
-  .h6.oliver .h6-info-type { background: rgba(58,159,213,.07); border-color: rgba(58,159,213,.12); }
+  .h6.oliver .h6-info-title  { color: #c8dff0; }
+  .h6.oliver .h6-info-rating { color: #7ec8e8; border-color: rgba(126,200,232,.35); }
   .h6.oliver .h6-info-add-btn { background: var(--cr); border-color: var(--cr); }
-  .h6.oliver .h6-info-add-btn.added { background: transparent; border-color: rgba(58,159,213,.2); }
-  .h6.oliver .h6-info-modal { scrollbar-color: rgba(58,159,213,.2) transparent; }
   .h6-wl-divider {
     padding: 10px clamp(20px,5vw,60px);
     font-family: var(--serif); font-size: 10px; letter-spacing: 3px;

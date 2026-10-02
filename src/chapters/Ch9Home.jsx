@@ -689,10 +689,187 @@ const STYLES = `
     border-top: 1px solid rgba(139,26,26,.1);
     border-bottom: 1px solid rgba(139,26,26,.07);
   }
+
+  /* ══════════════════════════════════════
+     TICKET BANKS
+  ══════════════════════════════════════ */
+  .h6-ticket-banks {
+    display: flex; gap: clamp(12px,3vw,28px); flex-wrap: wrap;
+    padding: clamp(16px,3vw,28px) clamp(20px,5vw,60px);
+    border-bottom: 1px solid rgba(139,26,26,.08);
+    justify-content: center;
+  }
+
+  .h6-ticket-bank {
+    flex: 1; min-width: 200px; max-width: 360px;
+    background: var(--cream2);
+    border: 1px solid rgba(139,26,26,.14);
+    padding: clamp(14px,2.5vw,22px) clamp(16px,3vw,28px);
+    display: flex; flex-direction: column; gap: 10px;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .h6-ticket-bank.mine {
+    border-color: var(--cr);
+    box-shadow: 0 0 0 1px rgba(139,26,26,.12), 0 4px 20px rgba(139,26,26,.08);
+  }
+  .h6-ticket-bank.ash { border-left: 3px solid #e87ea1; }
+  .h6-ticket-bank.ol  { border-left: 3px solid #5aaddb; }
+
+  .h6-tbank-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 8px;
+  }
+  .h6-tbank-who {
+    font-family: var(--script); font-style: italic;
+    font-size: clamp(17px,2.8vw,22px); color: var(--cr);
+  }
+  .h6-tbank-label {
+    font-family: var(--serif); font-size: 10px; letter-spacing: 2px;
+    color: var(--ink3); text-transform: uppercase;
+  }
+
+  .h6-tbank-tickets {
+    display: flex; flex-wrap: wrap; gap: 5px; align-items: center;
+  }
+  .h6-ticket {
+    font-size: clamp(16px,2.5vw,22px);
+    transition: transform .2s, opacity .2s, filter .2s;
+    line-height: 1;
+  }
+  .h6-ticket.full  { opacity: 1; }
+  .h6-ticket.used  { opacity: .22; filter: grayscale(1); transform: scale(.85); }
+
+  .h6-tbank-count {
+    font-family: var(--serif); font-size: 12px; color: var(--ink3); letter-spacing: .5px;
+  }
+  .h6-tbank-count b { color: var(--cr); }
+
+  .h6-tbank-warn {
+    font-family: var(--serif); font-size: 11px; font-style: italic;
+    color: var(--cr); opacity: .8; margin: 0;
+    animation: h6-qfade .35s ease;
+  }
+
+  /* oliver overrides for ticket banks */
+  .h6.oliver .h6-ticket-bank { background: var(--cream2); border-color: rgba(58,159,213,.18); }
+  .h6.oliver .h6-ticket-bank.mine { border-color: var(--cr); box-shadow: 0 0 0 1px rgba(58,159,213,.15), 0 4px 20px rgba(58,159,213,.07); }
+  .h6.oliver .h6-ticket-bank.ash  { border-left-color: #e87ea1; }
+  .h6.oliver .h6-ticket-bank.ol   { border-left-color: var(--cr); }
+  .h6.oliver .h6-tbank-who { color: var(--cr); }
+  .h6.oliver .h6-tbank-count b { color: var(--cr); }
+  .h6.oliver .h6-tbank-warn { color: var(--cr); }
+
+  /* ══════════════════════════════════════
+     TICKET BUTTON (per movie row)
+  ══════════════════════════════════════ */
+  .h6-ticket-btn {
+    all: unset; cursor: pointer;
+    padding: 5px 10px; display: flex; align-items: center; gap: 4px;
+    font-family: var(--serif); font-size: 12px; letter-spacing: .5px;
+    border: 1px solid rgba(139,26,26,.3); color: var(--ink3);
+    border-radius: 2px; white-space: nowrap;
+    transition: all .2s;
+  }
+  .h6-ticket-btn:hover:not(.capped) {
+    border-color: var(--cr); color: var(--cr);
+    background: rgba(139,26,26,.06);
+  }
+  .h6-ticket-btn.active {
+    background: var(--cr); color: #fff; border-color: var(--cr);
+    font-weight: 600;
+  }
+  .h6-ticket-btn.capped {
+    opacity: .3; cursor: not-allowed;
+  }
+
+  .h6.oliver .h6-ticket-btn { border-color: rgba(58,159,213,.3); }
+  .h6.oliver .h6-ticket-btn:hover:not(.capped) { border-color: var(--cr); color: var(--cr); background: rgba(58,159,213,.07); }
+  .h6.oliver .h6-ticket-btn.active { background: var(--cr); border-color: var(--cr); }
+
+  /* ══════════════════════════════════════
+     POWER BADGES & ROW HIGHLIGHTS
+  ══════════════════════════════════════ */
+  .h6-power-badge {
+    font-family: var(--serif); font-size: 10px;
+    padding: 2px 8px; letter-spacing: 1px; white-space: nowrap;
+    border: 1px solid; border-radius: 2px;
+    animation: h6-mp .3s ease;
+  }
+  .h6-power-badge.ash {
+    color: #c0496a; border-color: #c0496a;
+    background: rgba(192,73,106,.07);
+  }
+  .h6-power-badge.ol {
+    color: #3a9fd5; border-color: #3a9fd5;
+    background: rgba(58,159,213,.07);
+  }
+
+  .h6-match-badge.ticket {
+    color: #c07a20; border-color: #c07a20;
+    background: rgba(192,122,32,.07);
+    font-weight: 600;
+  }
+
+  .h6-movie-row.is-ash-power  { background: rgba(192,73,106,.05); }
+  .h6-movie-row.is-ol-power   { background: rgba(58,159,213,.05); }
+  .h6-movie-row.is-ticket-match { background: rgba(192,122,32,.07); }
+
+  .h6.oliver .h6-movie-row.is-ash-power  { background: rgba(192,73,106,.06); }
+  .h6.oliver .h6-movie-row.is-ol-power   { background: rgba(58,159,213,.08); }
+  .h6.oliver .h6-movie-row.is-ticket-match { background: rgba(192,122,32,.09); }
+
+  /* ══════════════════════════════════════
+     TICKET RESULTS / POWER PICKS SECTION
+  ══════════════════════════════════════ */
+  .h6-ticket-results { border-top: 1px solid rgba(139,26,26,.12); }
+
+  .h6-power-section {
+    display: flex; flex-direction: column; align-items: center;
+    gap: 10px; margin-top: 14px;
+  }
+  .h6-power-label {
+    font-family: var(--serif); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; padding: 3px 12px; border-radius: 2px;
+  }
+  .h6-power-label.ash {
+    background: rgba(192,73,106,.1); color: #c0496a;
+    border: 1px solid rgba(192,73,106,.3);
+  }
+  .h6-power-label.ol {
+    background: rgba(58,159,213,.1); color: #3a9fd5;
+    border: 1px solid rgba(58,159,213,.3);
+  }
+
+  .h6-match-chip.ash-chip {
+    background: #c0496a;
+  }
+  .h6-match-chip.ol-chip {
+    background: #3a9fd5;
+  }
+  .h6-match-chip.both {
+    background: #c07a20;
+    outline: 2px solid rgba(255,255,255,.35);
+  }
+  .h6-chip-both {
+    font-size: 10px; opacity: .85; font-style: italic;
+  }
+
+  .h6.oliver .h6-ticket-results { border-top-color: rgba(58,159,213,.15); }
 `;
+
 
 /* ── Firestore document ref ── */
 const WATCHLIST_DOC = 'watchlist/shared';
+
+/* ── Ticket config ── */
+const TICKETS_ASHLEY = 10;
+const TICKETS_OLIVER = 2;
+
+/** Returns 'YYYY-MM' string for the current month */
+function currentMonth() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
 
 const QUOTES = [
   <>I miss you<br />in the smallest moments<br /><em>the most</em></>,
@@ -760,6 +937,13 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
   const [ashPicks, setAshPicks] = useState([]);
   const [fsReady,  setFsReady]  = useState(false);
   const [newTitle, setNewTitle] = useState('');
+
+  /* ── ticket system state ── */
+  const [ashTickets, setAshTickets] = useState(TICKETS_ASHLEY);
+  const [olTickets,  setOlTickets]  = useState(TICKETS_OLIVER);
+  /* ticketPicks: movie ids that were added via ticket (not mutual-pick system) */
+  const [ashTicketPicks, setAshTicketPicks] = useState([]);
+  const [olTicketPicks,  setOlTicketPicks]  = useState([]);
   /* ── TMDB browser ── */
   const [activeTab,   setActiveTab]   = useState('trending');
   const [query,       setQuery]       = useState('');
@@ -798,14 +982,45 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
   /* ── Firestore real-time listener ── */
   useEffect(() => {
     const ref = doc(db, 'watchlist', 'shared');
-    // ensure document exists on first load
-    setDoc(ref, { movies: [], picks_oliver: [], picks_ashley: [] }, { merge: true });
+    const month = currentMonth();
+
+    // ensure document exists on first load — include ticket fields
+    setDoc(ref, {
+      movies: [], picks_oliver: [], picks_ashley: [],
+      tickets_ashley: TICKETS_ASHLEY, tickets_oliver: TICKETS_OLIVER,
+      ticket_picks_ashley: [], ticket_picks_oliver: [],
+      tickets_month: month,
+    }, { merge: true });
+
     const unsub = onSnapshot(ref, snap => {
       if (!snap.exists()) return;
       const data = snap.data();
-      setMovies(data.movies       || []);
-      setOlPicks(data.picks_oliver || []);
-      setAshPicks(data.picks_ashley|| []);
+
+      // ── monthly ticket reset ──
+      if (data.tickets_month && data.tickets_month !== month) {
+        // new month — reset everyone's tickets
+        updateDoc(ref, {
+          tickets_ashley: TICKETS_ASHLEY,
+          tickets_oliver: TICKETS_OLIVER,
+          ticket_picks_ashley: [],
+          ticket_picks_oliver: [],
+          tickets_month: month,
+        });
+        // optimistic local update; snapshot will arrive shortly
+        setAshTickets(TICKETS_ASHLEY);
+        setOlTickets(TICKETS_OLIVER);
+        setAshTicketPicks([]);
+        setOlTicketPicks([]);
+      } else {
+        setAshTickets(data.tickets_ashley ?? TICKETS_ASHLEY);
+        setOlTickets(data.tickets_oliver  ?? TICKETS_OLIVER);
+        setAshTicketPicks(data.ticket_picks_ashley || []);
+        setOlTicketPicks(data.ticket_picks_oliver  || []);
+      }
+
+      setMovies(data.movies        || []);
+      setOlPicks(data.picks_oliver  || []);
+      setAshPicks(data.picks_ashley || []);
       setFsReady(true);
     });
     return () => unsub();
@@ -843,13 +1058,55 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
   const removeMovie = useCallback((id) => {
     const ref = doc(db, 'watchlist', 'shared');
     updateDoc(ref, {
-      movies:        movies.filter(m => m.id !== id),
-      picks_oliver:  olPicks.filter(x => x !== id),
-      picks_ashley:  ashPicks.filter(x => x !== id),
+      movies:               movies.filter(m => m.id !== id),
+      picks_oliver:         olPicks.filter(x => x !== id),
+      picks_ashley:         ashPicks.filter(x => x !== id),
+      ticket_picks_ashley:  ashTicketPicks.filter(x => x !== id),
+      ticket_picks_oliver:  olTicketPicks.filter(x => x !== id),
     });
-  }, [movies, olPicks, ashPicks]);
+  }, [movies, olPicks, ashPicks, ashTicketPicks, olTicketPicks]);
+
+  /* ── use a ticket to claim a movie ── */
+  const useTicket = useCallback((movieId) => {
+    if (!user) return;
+    const ref = doc(db, 'watchlist', 'shared');
+    const isAsh = user === 'ashley';
+    const myTickets    = isAsh ? ashTickets    : olTickets;
+    const myTkPicks    = isAsh ? ashTicketPicks : olTicketPicks;
+    const tkField      = isAsh ? 'tickets_ashley'       : 'tickets_oliver';
+    const tkPicksField = isAsh ? 'ticket_picks_ashley'  : 'ticket_picks_oliver';
+
+    // already used a ticket on this movie — release it
+    if (myTkPicks.includes(movieId)) {
+      updateDoc(ref, {
+        [tkField]:      myTickets + 1,
+        [tkPicksField]: myTkPicks.filter(x => x !== movieId),
+      });
+      return;
+    }
+    // no tickets left
+    if (myTickets <= 0) return;
+
+    updateDoc(ref, {
+      [tkField]:      myTickets - 1,
+      [tkPicksField]: [...myTkPicks, movieId],
+    });
+  }, [user, ashTickets, olTickets, ashTicketPicks, olTicketPicks]);
 
   const matches = movies.filter(m => olPicks.includes(m.id) && ashPicks.includes(m.id));
+
+  /* ticket-claimed movies (solo power plays) */
+  const ashTicketMovies = movies.filter(m => ashTicketPicks.includes(m.id));
+  const olTicketMovies  = movies.filter(m => olTicketPicks.includes(m.id));
+
+  /* "both used a ticket" = mutual agreement via tickets */
+  const ticketMatches = movies.filter(m =>
+    ashTicketPicks.includes(m.id) && olTicketPicks.includes(m.id)
+  );
+
+  const myTickets      = user === 'oliver' ? olTickets   : ashTickets;
+  const myTicketPicks  = user === 'oliver' ? olTicketPicks : ashTicketPicks;
+  const myMaxTickets   = user === 'oliver' ? TICKETS_OLIVER : TICKETS_ASHLEY;
 
   /* ── TMDB fetch ── */
   const fetchTMDB = useCallback(async (tab, q) => {
@@ -1016,9 +1273,63 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
             <p className="h6-watch-title">Watching Time</p>
             <p className="h6-watch-who">
               {user
-                ? <>{user === 'oliver' ? '❄️' : '🌸'} You are <b>{user === 'oliver' ? 'Oliver' : 'Ashley'}</b> · Make our list then pick 3 from those · matches show below!</>
-                : 'Add movies & shows, each pick 3, see what matches!'}
+                ? <>{user === 'oliver' ? '❄️' : '🌸'} You are <b>{user === 'oliver' ? 'Oliver' : 'Ashley'}</b> · Add movies, pick 3 with mutual picks · or use tickets for power picks!</>
+                : 'Add movies & shows, use picks or tickets to choose what to watch!'}
             </p>
+          </div>
+
+          {/* ═══ TICKET BANKS ═══ */}
+          <div className="h6-ticket-banks">
+
+            {/* Ashley's bank */}
+            <div className={`h6-ticket-bank ash${user === 'ashley' ? ' mine' : ''}`}>
+              <div className="h6-tbank-header">
+                <span className="h6-tbank-who">🌸 Ashley</span>
+                <span className="h6-tbank-label">Movie Power</span>
+              </div>
+              <div className="h6-tbank-tickets">
+                {Array.from({ length: TICKETS_ASHLEY }).map((_, i) => (
+                  <span
+                    key={i}
+                    className={`h6-ticket${i < ashTickets ? ' full' : ' used'}`}
+                    aria-label={i < ashTickets ? 'ticket available' : 'ticket used'}
+                  >🎟</span>
+                ))}
+              </div>
+              <p className="h6-tbank-count">
+                <b>{ashTickets}</b> / {TICKETS_ASHLEY} left this month
+              </p>
+              {user === 'ashley' && ashTickets <= 3 && ashTickets > 0 && (
+                <p className="h6-tbank-warn">Almost out! Use them wisely 🍿</p>
+              )}
+              {user === 'ashley' && ashTickets === 0 && (
+                <p className="h6-tbank-warn">All tickets used — resets next month!</p>
+              )}
+            </div>
+
+            {/* Oliver's bank */}
+            <div className={`h6-ticket-bank ol${user === 'oliver' ? ' mine' : ''}`}>
+              <div className="h6-tbank-header">
+                <span className="h6-tbank-who">❄️ Oliver</span>
+                <span className="h6-tbank-label">Movie Power</span>
+              </div>
+              <div className="h6-tbank-tickets">
+                {Array.from({ length: TICKETS_OLIVER }).map((_, i) => (
+                  <span
+                    key={i}
+                    className={`h6-ticket${i < olTickets ? ' full' : ' used'}`}
+                    aria-label={i < olTickets ? 'ticket available' : 'ticket used'}
+                  >🎟</span>
+                ))}
+              </div>
+              <p className="h6-tbank-count">
+                <b>{olTickets}</b> / {TICKETS_OLIVER} left this month
+              </p>
+              {user === 'oliver' && olTickets === 0 && (
+                <p className="h6-tbank-warn">All tickets used — resets next month!</p>
+              )}
+            </div>
+
           </div>
 
           {/* ═══ TMDB browser ═══ */}
@@ -1091,18 +1402,6 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
           {/* watchlist divider */}
           <div className="h6-wl-divider">Our Watchlist</div>
 
-          {/* manual add row */}
-          {/* <div className="h6-add-row">
-            <input
-              className="h6-add-in"
-              placeholder="Or type any title manually..."
-              value={newTitle}
-              onChange={e => setNewTitle(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && addMovie()}
-            />
-            <button className="h6-add-btn" onClick={addMovie}>+ Add</button>
-          </div> */}
-
           {/* list */}
           {movies.length === 0
             ? <p className="h6-wl-empty">Nothing on the list yet — add something above! 🍿</p>
@@ -1110,28 +1409,70 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
                 {movies.map(m => {
                   const olOn  = olPicks.includes(m.id);
                   const ashOn = ashPicks.includes(m.id);
-                  const isMatch = olOn && ashOn;
+                  const isMutualPick = olOn && ashOn;
+
                   const myOn    = myPicks.includes(m.id);
                   const myFull  = myPicks.length >= 3 && !myOn;
 
+                  const ashTkOn = ashTicketPicks.includes(m.id);
+                  const olTkOn  = olTicketPicks.includes(m.id);
+                  const isBothTicket = ashTkOn && olTkOn;
+                  const isAshPower   = ashTkOn && !olTkOn;
+                  const isOlPower    = olTkOn && !ashTkOn;
+
+                  const myTkOn   = user === 'ashley' ? ashTkOn : olTkOn;
+                  const canTicket = user && (myTkOn || myTickets > 0);
+
+                  // row highlight priority: both-ticket > mutual-pick > single power
+                  const rowClass = [
+                    'h6-movie-row',
+                    isBothTicket  ? ' is-ticket-match' :
+                    isMutualPick  ? ' is-match' :
+                    isAshPower    ? ' is-ash-power' :
+                    isOlPower     ? ' is-ol-power' : '',
+                  ].join('');
+
                   return (
-                    <div key={m.id} className={`h6-movie-row${isMatch ? ' is-match' : ''}`}>
-                      {isMatch && <span className="h6-match-badge">MATCH ✦</span>}
+                    <div key={m.id} className={rowClass}>
+                      {/* status badge */}
+                      {isBothTicket  && <span className="h6-match-badge ticket">🎟 BOTH PICKED ✦</span>}
+                      {isMutualPick  && !isBothTicket && <span className="h6-match-badge">MATCH ✦</span>}
+                      {isAshPower    && !isBothTicket && <span className="h6-power-badge ash">🌸 Ashley's pick</span>}
+                      {isOlPower     && !isBothTicket && <span className="h6-power-badge ol">❄️ Oliver's pick</span>}
+
                       <span className="h6-movie-title">{m.title}</span>
+
                       <div className="h6-pick-btns">
-                        {/* Oliver pick */}
+                        {/* ── normal mutual-pick buttons ── */}
                         <button
                           className={`h6-pick-btn${olOn ? ' active' : ''}${user === 'oliver' ? ' mine' : ' readonly'}${user === 'oliver' && myFull ? ' capped' : ''}`}
                           onClick={() => user === 'oliver' && togglePick(m.id)}
                           title={user === 'oliver' ? (myFull ? 'Max 3 picks' : 'Toggle your pick') : "Oliver's pick"}
                         >❄️ {olOn ? '✓' : '○'}</button>
-                        {/* Ashley pick */}
                         <button
                           className={`h6-pick-btn${ashOn ? ' active' : ''}${user === 'ashley' ? ' mine' : ' readonly'}${user === 'ashley' && myFull ? ' capped' : ''}`}
                           onClick={() => user === 'ashley' && togglePick(m.id)}
                           title={user === 'ashley' ? (myFull ? 'Max 3 picks' : 'Toggle your pick') : "Ashley's pick"}
                         >🌸 {ashOn ? '✓' : '○'}</button>
+
+                        {/* ── ticket / power pick button ── */}
+                        {user && (
+                          <button
+                            className={`h6-ticket-btn${myTkOn ? ' active' : ''}${!canTicket ? ' capped' : ''}`}
+                            onClick={() => canTicket && useTicket(m.id)}
+                            title={
+                              myTkOn
+                                ? 'Cancel ticket pick (refunds 1 ticket)'
+                                : myTickets <= 0
+                                  ? 'No tickets left this month'
+                                  : `Use a ticket to power-pick this (${myTickets} left)`
+                            }
+                          >
+                            🎟 {myTkOn ? 'Picked' : 'Ticket'}
+                          </button>
+                        )}
                       </div>
+
                       <button className="h6-del-btn" onClick={() => removeMovie(m.id)} title="Remove">×</button>
                     </div>
                   );
@@ -1141,22 +1482,69 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
 
           {/* summary */}
           <div className="h6-wl-summary">
-            <span>❄️ Oliver: <b>{olPicks.length}/3</b> picked</span>
-            <span>🌸 Ashley: <b>{ashPicks.length}/3</b> picked</span>
+            <span>❄️ Oliver: <b>{olPicks.length}/3</b> picks · <b>{olTicketPicks.length}</b> ticket{olTicketPicks.length !== 1 ? 's' : ''} used</span>
+            <span>🌸 Ashley: <b>{ashPicks.length}/3</b> picks · <b>{ashTicketPicks.length}</b> ticket{ashTicketPicks.length !== 1 ? 's' : ''} used</span>
           </div>
 
-          {/* matches */}
-          <div className="h6-matches">
+          {/* ── mutual picks matches ── */}
+          {matches.length > 0 && (
+            <div className="h6-matches">
+              <p className="h6-matches-ttl">✦ Mutual picks — we both want this</p>
+              <div className="h6-matches-chips">
+                {matches.map(m => <span key={m.id} className="h6-match-chip">{m.title}</span>)}
+              </div>
+            </div>
+          )}
+
+          {/* ── ticket power picks ── */}
+          <div className="h6-matches h6-ticket-results">
             <p className="h6-matches-ttl">
-              {matches.length > 0 ? '✦ Tonight we watch' : 'Keep picking...'}
+              {ashTicketMovies.length === 0 && olTicketMovies.length === 0
+                ? '🎟 No ticket picks yet'
+                : '🎟 Power Picks'}
             </p>
-            {matches.length > 0
-              ? <div className="h6-matches-chips">
-                  {matches.map(m => <span key={m.id} className="h6-match-chip">{m.title}</span>)}
+
+            {/* Ashley's solo ticket picks */}
+            {ashTicketMovies.length > 0 && (
+              <div className="h6-power-section">
+                <span className="h6-power-label ash">🌸 Ashley chose</span>
+                <div className="h6-matches-chips">
+                  {ashTicketMovies.map(m => (
+                    <span
+                      key={m.id}
+                      className={`h6-match-chip ash-chip${olTicketPicks.includes(m.id) ? ' both' : ''}`}
+                    >
+                      {m.title}
+                      {olTicketPicks.includes(m.id) && <span className="h6-chip-both"> ✦ both!</span>}
+                    </span>
+                  ))}
                 </div>
-              : <p className="h6-no-match">Keep picking — your overlap will appear here 🍿</p>
-            }
+              </div>
+            )}
+
+            {/* Oliver's solo ticket picks */}
+            {olTicketMovies.length > 0 && (
+              <div className="h6-power-section">
+                <span className="h6-power-label ol">❄️ Oliver chose</span>
+                <div className="h6-matches-chips">
+                  {olTicketMovies.map(m => (
+                    <span
+                      key={m.id}
+                      className={`h6-match-chip ol-chip${ashTicketPicks.includes(m.id) ? ' both' : ''}`}
+                    >
+                      {m.title}
+                      {ashTicketPicks.includes(m.id) && <span className="h6-chip-both"> ✦ both!</span>}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {ashTicketMovies.length === 0 && olTicketMovies.length === 0 && (
+              <p className="h6-no-match">Use a 🎟 ticket on any movie to power-pick it anytime!</p>
+            )}
           </div>
+
         </section>
 
 

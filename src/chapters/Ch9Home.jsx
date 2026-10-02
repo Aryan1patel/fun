@@ -682,6 +682,30 @@ const STYLES = `
     grid-column: 1 / -1; text-align: center; padding: clamp(28px,5vw,48px);
     font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink3);
   }
+
+  /* ── pagination ── */
+  .h6-tmdb-pager {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    padding: clamp(10px,2vw,16px) clamp(20px,5vw,60px);
+    border-top: 1px solid rgba(139,26,26,.07);
+  }
+  .h6-pager-btn {
+    all: unset; cursor: pointer;
+    font-family: var(--serif); font-size: 13px; letter-spacing: 1px;
+    color: var(--cr); border: 1px solid rgba(139,26,26,.25);
+    padding: 7px 16px; transition: background .2s, color .2s;
+  }
+  .h6-pager-btn:hover:not(:disabled) { background: var(--cr); color: #fff; }
+  .h6-pager-btn:disabled { opacity: .3; cursor: default; }
+  .h6-pager-info {
+    font-family: var(--serif); font-size: 13px; color: var(--ink3);
+    min-width: 100px; text-align: center;
+  }
+  .h6-pager-info b { color: var(--ink2); }
+
+  .h6.oliver .h6-tmdb-pager { border-top-color: rgba(58,159,213,.1); }
+  .h6.oliver .h6-pager-btn { color: var(--cr); border-color: rgba(58,159,213,.3); }
+  .h6.oliver .h6-pager-btn:hover:not(:disabled) { background: var(--cr); color: var(--cream); }
   .h6-wl-divider {
     padding: 10px clamp(20px,5vw,60px);
     font-family: var(--serif); font-size: 10px; letter-spacing: 3px;
@@ -923,6 +947,8 @@ const TABS = [
   { id: '878',      label: '🚀 Sci-Fi'  },
   { id: '28',       label: '💥 Action'  },
   { id: '27',       label: '👻 Horror'  },
+  { id: '9648',     label: '🔍 Mystery' },
+  { id: '53',       label: '😰 Thriller'},
 ];
 
 export default function Ch9Home({ active, goToChapter, user, isCute }) {
@@ -949,6 +975,8 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
   const [query,       setQuery]       = useState('');
   const [tmdbMovies,  setTmdbMovies]  = useState([]);
   const [tmdbLoading, setTmdbLoading] = useState(false);
+  const [tmdbPage,    setTmdbPage]    = useState(1);
+  const [tmdbTotal,   setTmdbTotal]   = useState(1);
 
   /* rotate quote */
   useEffect(() => {
@@ -1110,35 +1138,49 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
   const myMaxTickets   = user === 'oliver' ? TICKETS_OLIVER : TICKETS_ASHLEY;
 
   /* ── TMDB fetch ── */
-  const fetchTMDB = useCallback(async (tab, q) => {
+  const fetchTMDB = useCallback(async (tab, q, page = 1) => {
     setTmdbLoading(true);
     try {
       let url;
       if (q.trim()) {
-        url = `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_KEY}&query=${encodeURIComponent(q.trim())}&page=1&include_adult=false`;
+        url = `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_KEY}&query=${encodeURIComponent(q.trim())}&page=${page}&include_adult=false`;
       } else if (tab === 'trending') {
-        url = `https://api.themoviedb.org/3/trending/all/week?api_key=${TMDB_KEY}`;
+        url = `https://api.themoviedb.org/3/trending/all/week?api_key=${TMDB_KEY}&page=${page}`;
       } else if (tab === 'movies') {
-        url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&sort_by=popularity.desc&page=1`;
+        url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&sort_by=popularity.desc&page=${page}`;
       } else if (tab === 'tv') {
-        url = `https://api.themoviedb.org/3/discover/tv?api_key=${TMDB_KEY}&sort_by=popularity.desc&page=1`;
+        url = `https://api.themoviedb.org/3/discover/tv?api_key=${TMDB_KEY}&sort_by=popularity.desc&page=${page}`;
       } else {
-        url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&with_genres=${tab}&sort_by=popularity.desc&page=1`;
+        url = `https://api.themoviedb.org/3/discover/movie?api_key=${TMDB_KEY}&with_genres=${tab}&sort_by=popularity.desc&page=${page}`;
       }
       const res  = await fetch(url);
       const data = await res.json();
       setTmdbMovies((data.results || []).filter(m => m.poster_path && m.media_type !== 'person'));
+      setTmdbTotal(Math.min(data.total_pages || 1, 500)); // TMDB caps at 500
     } catch {
       setTmdbMovies([]);
+      setTmdbTotal(1);
     }
     setTmdbLoading(false);
   }, []);
 
+  /* reset to page 1 when tab or query changes */
   useEffect(() => {
     if (!active) return;
-    const t = setTimeout(() => fetchTMDB(activeTab, query), query ? 450 : 0);
+    setTmdbPage(1);
+    const t = setTimeout(() => fetchTMDB(activeTab, query, 1), query ? 450 : 0);
     return () => clearTimeout(t);
   }, [active, activeTab, query, fetchTMDB]);
+
+  /* fetch when page changes (but not when tab/query changes — that's handled above) */
+  const pageRef = useRef(1);
+  useEffect(() => {
+    if (!active) return;
+    if (tmdbPage === 1) { pageRef.current = 1; return; } // already fetched by the tab/query effect
+    if (tmdbPage === pageRef.current) return;
+    pageRef.current = tmdbPage;
+    fetchTMDB(activeTab, query, tmdbPage);
+  }, [active, tmdbPage, activeTab, query, fetchTMDB]);
 
   const addFromTMDB = useCallback((m) => {
     const title = m.title || m.name || '';
@@ -1398,6 +1440,23 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
                 );
               })}
             </div>
+
+            {/* pagination */}
+            {!tmdbLoading && tmdbMovies.length > 0 && (
+              <div className="h6-tmdb-pager">
+                <button
+                  className="h6-pager-btn"
+                  disabled={tmdbPage <= 1}
+                  onClick={() => setTmdbPage(p => Math.max(1, p - 1))}
+                >‹ Prev</button>
+                <span className="h6-pager-info">Page <b>{tmdbPage}</b> of {tmdbTotal}</span>
+                <button
+                  className="h6-pager-btn"
+                  disabled={tmdbPage >= tmdbTotal}
+                  onClick={() => setTmdbPage(p => Math.min(tmdbTotal, p + 1))}
+                >Next ›</button>
+              </div>
+            )}
           </div>
 
           {/* watchlist divider */}

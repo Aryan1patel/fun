@@ -706,6 +706,135 @@ const STYLES = `
   .h6.oliver .h6-tmdb-pager { border-top-color: rgba(58,159,213,.1); }
   .h6.oliver .h6-pager-btn { color: var(--cr); border-color: rgba(58,159,213,.3); }
   .h6.oliver .h6-pager-btn:hover:not(:disabled) { background: var(--cr); color: var(--cream); }
+
+  /* ══════════════════════════════════════
+     TMDB CARD ACTION BUTTONS
+  ══════════════════════════════════════ */
+  .h6-tmdb-card { cursor: default; } /* remove pointer from whole card */
+
+  .h6-card-actions {
+    position: absolute; top: 5px; right: 5px;
+    display: flex; flex-direction: column; gap: 5px;
+    opacity: 0; transition: opacity .2s;
+  }
+  .h6-tmdb-card:hover .h6-card-actions { opacity: 1; }
+
+  .h6-card-info-btn,
+  .h6-card-add-btn {
+    all: unset; cursor: pointer;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; line-height: 1;
+    transition: transform .15s, background .15s;
+  }
+  .h6-card-info-btn {
+    background: rgba(0,0,0,.72); color: rgba(255,255,255,.9);
+    font-size: 13px;
+  }
+  .h6-card-info-btn:hover { background: rgba(0,0,0,.9); transform: scale(1.12); }
+
+  .h6-card-add-btn {
+    background: var(--cr); color: #fff;
+    font-size: 17px;
+  }
+  .h6-card-add-btn:hover { transform: scale(1.15); filter: brightness(1.1); }
+
+  /* ══════════════════════════════════════
+     MOVIE INFO MODAL
+  ══════════════════════════════════════ */
+  .h6-info-backdrop {
+    position: fixed; inset: 0; z-index: 10000;
+    background: rgba(4,3,2,.82); backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    animation: h6-lbFade .2s ease;
+  }
+  .h6-info-modal {
+    position: relative;
+    background: var(--cream); border: 1px solid rgba(139,26,26,.2);
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+    width: min(680px, 96vw); max-height: 88vh;
+    overflow-y: auto; overflow-x: hidden;
+    scrollbar-width: thin; scrollbar-color: rgba(139,26,26,.2) transparent;
+    animation: h6-lbZ .25s ease;
+  }
+  .h6-info-close {
+    all: unset; cursor: pointer; position: sticky; top: 0; float: right;
+    margin: 12px 12px 0 0;
+    width: 34px; height: 34px; border-radius: 50%; z-index: 2;
+    background: rgba(139,26,26,.1); border: 1px solid rgba(139,26,26,.2);
+    color: var(--ink2); font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s, color .2s;
+  }
+  .h6-info-close:hover { background: var(--cr); color: #fff; border-color: var(--cr); }
+
+  .h6-info-body {
+    display: flex; gap: clamp(16px,4vw,32px);
+    padding: clamp(20px,4vw,36px);
+    clear: both;
+  }
+  .h6-info-poster {
+    flex-shrink: 0;
+    width: clamp(100px, 28vw, 180px);
+    aspect-ratio: 2/3; object-fit: cover;
+    border: 1px solid rgba(139,26,26,.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,.22);
+  }
+  .h6-info-text {
+    flex: 1; display: flex; flex-direction: column; gap: 12px;
+    min-width: 0;
+  }
+  .h6-info-title {
+    font-family: var(--script); font-style: italic;
+    font-size: clamp(20px,4vw,32px); color: var(--cr); line-height: 1.15;
+    margin: 0;
+  }
+  .h6-info-meta {
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  }
+  .h6-info-yr {
+    font-family: var(--serif); font-size: 12px; color: var(--ink3);
+    border: 1px solid rgba(139,26,26,.2); padding: 2px 8px;
+  }
+  .h6-info-rating {
+    font-family: var(--serif); font-size: 12px; color: var(--cr);
+    border: 1px solid rgba(139,26,26,.2); padding: 2px 8px;
+  }
+  .h6-info-type {
+    font-family: var(--serif); font-size: 11px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--ink3); padding: 2px 8px;
+    background: rgba(139,26,26,.06); border: 1px solid rgba(139,26,26,.1);
+  }
+  .h6-info-overview {
+    font-family: var(--serif); font-size: clamp(13px,2vw,15px);
+    color: var(--ink2); line-height: 1.7; margin: 0;
+  }
+  .h6-info-add-btn {
+    all: unset; cursor: pointer; align-self: flex-start;
+    font-family: var(--serif); font-size: 13px; letter-spacing: 1px;
+    background: var(--cr); color: #fff;
+    padding: 10px 22px; margin-top: 4px;
+    border: 1px solid var(--cr);
+    transition: opacity .2s, background .2s;
+  }
+  .h6-info-add-btn:hover:not(:disabled) { opacity: .85; }
+  .h6-info-add-btn.added {
+    background: transparent; color: var(--ink3);
+    border-color: rgba(139,26,26,.2); cursor: default;
+  }
+
+  /* oliver overrides */
+  .h6.oliver .h6-info-modal { background: var(--cream); border-color: rgba(58,159,213,.2); }
+  .h6.oliver .h6-info-close { background: rgba(58,159,213,.1); border-color: rgba(58,159,213,.2); }
+  .h6.oliver .h6-info-close:hover { background: var(--cr); border-color: var(--cr); }
+  .h6.oliver .h6-info-yr,
+  .h6.oliver .h6-info-type { border-color: rgba(58,159,213,.2); }
+  .h6.oliver .h6-info-rating { color: var(--cr); border-color: rgba(58,159,213,.2); }
+  .h6.oliver .h6-info-type { background: rgba(58,159,213,.07); border-color: rgba(58,159,213,.12); }
+  .h6.oliver .h6-info-add-btn { background: var(--cr); border-color: var(--cr); }
+  .h6.oliver .h6-info-add-btn.added { background: transparent; border-color: rgba(58,159,213,.2); }
+  .h6.oliver .h6-info-modal { scrollbar-color: rgba(58,159,213,.2) transparent; }
   .h6-wl-divider {
     padding: 10px clamp(20px,5vw,60px);
     font-family: var(--serif); font-size: 10px; letter-spacing: 3px;
@@ -977,6 +1106,7 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
   const [tmdbLoading, setTmdbLoading] = useState(false);
   const [tmdbPage,    setTmdbPage]    = useState(1);
   const [tmdbTotal,   setTmdbTotal]   = useState(1);
+  const [infoMovie,   setInfoMovie]   = useState(null); // movie object for detail modal
 
   /* rotate quote */
   useEffect(() => {
@@ -1418,8 +1548,6 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
                   <div
                     key={`${m.id}-${m.media_type || 'movie'}`}
                     className="h6-tmdb-card"
-                    onClick={() => !added && addFromTMDB(m)}
-                    title={added ? 'Already in watchlist' : `Add "${title}"`}
                   >
                     <img className="h6-tmdb-poster" src={`${TMDB_IMG}${m.poster_path}`} alt={title} loading="lazy" />
                     <div className="h6-tmdb-info">
@@ -1429,13 +1557,24 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
                         <span className="h6-tmdb-yr">{year}</span>
                       </div>
                     </div>
-                    {added
-                      ? <span className="h6-tmdb-added">✓ Added</span>
-                      : <div className="h6-tmdb-add">
-                          <svg viewBox="0 0 24 24" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                          Add to list
-                        </div>
-                    }
+                    {/* card action buttons */}
+                    <div className="h6-card-actions">
+                      <button
+                        className="h6-card-info-btn"
+                        onClick={e => { e.stopPropagation(); setInfoMovie(m); }}
+                        title="See description"
+                        aria-label="Info"
+                      >ⓘ</button>
+                      {added
+                        ? <span className="h6-tmdb-added">✓</span>
+                        : <button
+                            className="h6-card-add-btn"
+                            onClick={e => { e.stopPropagation(); addFromTMDB(m); }}
+                            title={`Add "${title}" to watchlist`}
+                            aria-label="Add to watchlist"
+                          >＋</button>
+                      }
+                    </div>
                   </div>
                 );
               })}
@@ -1618,6 +1757,54 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
         </section>
 
       </div>
+
+      {/* ── movie info modal ── */}
+      {infoMovie && (() => {
+        const m     = infoMovie;
+        const title = m.title || m.name || '';
+        const year  = (m.release_date || m.first_air_date || '').slice(0, 4);
+        const rating = m.vote_average ? m.vote_average.toFixed(1) : null;
+        const added  = movies.some(mv => mv.title.toLowerCase() === title.toLowerCase());
+        return (
+          <div className="h6-info-backdrop" onClick={() => setInfoMovie(null)}>
+            <div className="h6-info-modal" onClick={e => e.stopPropagation()}>
+              <button className="h6-info-close" onClick={() => setInfoMovie(null)}>✕</button>
+              <div className="h6-info-body">
+                {m.poster_path && (
+                  <img
+                    className="h6-info-poster"
+                    src={`${TMDB_IMG}${m.poster_path}`}
+                    alt={title}
+                  />
+                )}
+                <div className="h6-info-text">
+                  <p className="h6-info-title">{title}</p>
+                  <div className="h6-info-meta">
+                    {year && <span className="h6-info-yr">{year}</span>}
+                    {rating && parseFloat(rating) > 0 && (
+                      <span className="h6-info-rating">★ {rating}</span>
+                    )}
+                    {m.media_type === 'tv' || m.first_air_date
+                      ? <span className="h6-info-type">TV Series</span>
+                      : <span className="h6-info-type">Movie</span>
+                    }
+                  </div>
+                  <p className="h6-info-overview">
+                    {m.overview || 'No description available.'}
+                  </p>
+                  <button
+                    className={`h6-info-add-btn${added ? ' added' : ''}`}
+                    onClick={() => { if (!added) { addFromTMDB(m); setInfoMovie(null); } }}
+                    disabled={added}
+                  >
+                    {added ? '✓ Already in watchlist' : '＋ Add to watchlist'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* lightbox */}
       {lb !== null && (

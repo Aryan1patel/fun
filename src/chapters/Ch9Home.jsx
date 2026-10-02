@@ -984,16 +984,17 @@ export default function Ch9Home({ active, goToChapter, user, isCute }) {
     const ref = doc(db, 'watchlist', 'shared');
     const month = currentMonth();
 
-    // ensure document exists on first load — include ticket fields
-    setDoc(ref, {
-      movies: [], picks_oliver: [], picks_ashley: [],
-      tickets_ashley: TICKETS_ASHLEY, tickets_oliver: TICKETS_OLIVER,
-      ticket_picks_ashley: [], ticket_picks_oliver: [],
-      tickets_month: month,
-    }, { merge: true });
-
     const unsub = onSnapshot(ref, snap => {
-      if (!snap.exists()) return;
+      if (!snap.exists()) {
+        // first ever load — create the document with empty defaults
+        setDoc(ref, {
+          movies: [], picks_oliver: [], picks_ashley: [],
+          tickets_ashley: TICKETS_ASHLEY, tickets_oliver: TICKETS_OLIVER,
+          ticket_picks_ashley: [], ticket_picks_oliver: [],
+          tickets_month: month,
+        });
+        return;
+      }
       const data = snap.data();
 
       // ── monthly ticket reset ──
